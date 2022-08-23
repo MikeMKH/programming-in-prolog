@@ -3,7 +3,7 @@ likes(mary, wine).
 likes(john, wine).
 likes(john, mary).
 
-ex1 :-
+ex1_1 :-
   likes(mary, X), likes(john, X),
   write(X).
 
@@ -25,15 +25,15 @@ sister_of(X, Y) :-
   female(X),
   sibling(X, Y).
 
-ex2 :-
+ex1_2 :-
   sister_of(alice, X),
   write(X).
 
-ex3 :-
+ex1_3 :-
   sibling(X, Y),
   write('X='),write(X),write(' Y='),write(Y).
 
-ex4 :-
+ex1_4 :-
   female(alice),
   parents(alice, M, F),
   parents(X, M, F),
