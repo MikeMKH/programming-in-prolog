@@ -32,3 +32,7 @@ ex2_1g :-
   % true
   f(X, a(b, c)) = f(Z, a(Z, c)),
   write('X='),write(X),write(' Z='),write(Z),nl.
+
+write_add(X + Y) :-
+  Z is X + Y,
+  write(X),write(' + '),write(Y),write(' = '),write(Z),nl.
