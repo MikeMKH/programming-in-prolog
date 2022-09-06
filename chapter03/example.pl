@@ -45,3 +45,35 @@ basicpart(apple).
 basicpart(fruit).
 
 % not sure how to use this
+
+% 3.7 accumulators
+
+len1([], 0).
+len1([_|T], N) :-
+  len1(T, N1),
+  N is N1 + 1.
+
+len2(List, N) :- acclen2(List, 0, N).
+acclen2([], A, A).
+acclen2([_|T], A, N) :-
+  A1 is A + 1,
+  acclen2(T, A1, N).
+
+exp37_1 :-
+  List = [1, 2, 3],
+  write(List),write(' length='),
+  len1(List, N1),
+  len2(List, N2),
+  N1 =:= N2,
+  write(N1),nl.
+
+accumulator([], _, Seed, Seed).
+accumulator([H|T], Func, Seed, R) :-
+  apply(Func, [Seed, H, Next]),
+  accumulator(T, Func, Next, R).
+
+exp37_2 :-
+  List = [1, 2, 3],
+  write('fold(+,'),write(List),write(',0)='),
+  accumulator(List, plus, 0, R),
+  write(R),nl.
