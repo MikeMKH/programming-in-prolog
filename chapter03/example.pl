@@ -77,3 +77,17 @@ exp37_2 :-
   write('fold(+,'),write(List),write(',0)='),
   accumulator(List, plus, 0, R),
   write(R),nl.
+
+% 15-819K Logic Programming: Lecture 11
+
+rev(List, Rev) :-
+  rev_(List, Rev,[]).
+rev_([H|T], Rs,Rev) :-
+  rev_(T, Rs,[H|Rev]).
+rev_([], Rev,Rev).
+
+exp38_1 :-
+  List = [4, 5, 6],
+  write('reverse('),write(List),write(')='),
+  rev(List, Rev),
+  write(Rev),nl.
