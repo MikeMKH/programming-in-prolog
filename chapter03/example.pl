@@ -93,8 +93,14 @@ exp38_1 :-
   write(Rev),nl.
 
 map(List, Func, Mapped) :-
-  map_(List,[], Func, Mapped,[]).
-map_([],[], _, B,B).
-map_([H|T],T1, Func, [R|S],S1) :-
+  map_(List, Func, Mapped,[]).
+map_([], _, S,S).
+map_([H|T], Func, [R|S],S1) :-
   apply(Func, [H, R]),
-  map_(T,T1, Func, S,S1).
+  map_(T, Func, S,S1).
+
+exp38_2 :-
+  List = [7, 8, 9],
+  write('map(+1,'),write(List),write(')='),
+  map(List, plus(1), Plus1),
+  write(Plus1),nl.
