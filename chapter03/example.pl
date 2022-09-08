@@ -79,6 +79,7 @@ exp37_2 :-
   write(R),nl.
 
 % 15-819K Logic Programming: Lecture 11
+% https://www.cs.cmu.edu/~fp/courses/lp/lectures/11-diff.pdf
 
 rev(List, Rev) :-
   rev_(List, Rev,[]).
@@ -92,6 +93,8 @@ exp38_1 :-
   rev(List, Rev),
   write(Rev),nl.
 
+% https://www.cl.cam.ac.uk/teaching/0809/Prolog/Prolog08ML5R2.pdf
+
 map(List, Func, Mapped) :-
   map_(List, Func, Mapped,[]).
 map_([], _, S,S).
@@ -104,3 +107,30 @@ exp38_2 :-
   write('map(+1,'),write(List),write(')='),
   map(List, plus(1), Plus1),
   write(Plus1),nl.
+
+% [trace]  ?- map([7,8,9],plus(1),R).
+%    Call: (10) map([7, 8, 9], plus(1), _44280) ? creep
+%    Call: (11) map_([7, 8, 9], plus(1), _44280, []) ? creep
+% ^  Call: (12) apply(plus(1), [7, _46312]) ? creep
+% ^  Exit: (12) apply(user:plus(1), [7, 8]) ? creep
+%    Call: (12) map_([8, 9], plus(1), _46314, []) ? creep
+% ^  Call: (13) apply(plus(1), [8, _48664]) ? creep
+% ^  Exit: (13) apply(user:plus(1), [8, 9]) ? creep
+%    Call: (13) map_([9], plus(1), _48666, []) ? creep
+% ^  Call: (14) apply(plus(1), [9, _51016]) ? creep
+% ^  Exit: (14) apply(user:plus(1), [9, 10]) ? creep
+%    Call: (14) map_([], plus(1), _51018, []) ? creep
+%    Exit: (14) map_([], plus(1), [], []) ? creep
+%    Exit: (13) map_([9], plus(1), [10], []) ? creep
+%    Exit: (12) map_([8, 9], plus(1), [9, 10], []) ? creep
+%    Exit: (11) map_([7, 8, 9], plus(1), [8, 9, 10], []) ? creep
+%    Exit: (10) map([7, 8, 9], plus(1), [8, 9, 10]) ? creep
+% R = [8, 9, 10].
+
+m([], _, S).
+m([H|T], Func, [R|S]) :-
+  apply(Func, [H, R]),
+  m(T, Func, S).
+
+% ?- m([1,2,3],plus(1),R).
+% R = [2, 3, 4|_].
