@@ -91,3 +91,10 @@ exp38_1 :-
   write('reverse('),write(List),write(')='),
   rev(List, Rev),
   write(Rev),nl.
+
+map(List, Func, Mapped) :-
+  map_(List,[], Func, Mapped,[]).
+map_([],[], _, B,B).
+map_([H|T],T1, Func, [R|S],S1) :-
+  apply(Func, [H, R]),
+  map_(T,T1, Func, S,S1).
