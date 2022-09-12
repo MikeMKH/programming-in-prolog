@@ -105,3 +105,26 @@ is_member(X, [_|Y]) :- is_member(X, Y).
 %    Fail: (11) is_member(1, [1, 2, 1, 1, 0, 1, -1]) ? creep
 %    Fail: (10) is_member(1, [3, 1, 2, 1, 1, 0, 1, -1]) ? creep
 % false.
+
+% 4.2 the "cut"
+
+cutted(X, even) :- divisible_by(X, 2), !.
+cutted(_, odd).
+
+uncutted(X, even) :- divisible_by(X, 2).
+uncutted(_, odd).
+
+divisible_by(X, N) :- 0 =:= X mod N.
+
+% ?- cutted(2, R).
+% R = even.
+
+% ?- uncutted(2, R).
+% R = even ;
+% R = odd.
+
+% ?- cutted(3, R).
+% R = odd.
+
+% ?- uncutted(3, R).
+% R = odd.
