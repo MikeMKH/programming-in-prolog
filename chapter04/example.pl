@@ -128,3 +128,66 @@ divisible_by(X, N) :- 0 =:= X mod N.
 
 % ?- uncutted(3, R).
 % R = odd.
+
+% 4.3 common uses of cut
+
+sum_to(0, 0) :- !.
+sum_to(N, R) :-
+  N1 is N - 1,
+  sum_to(N1, R1),
+  R is N + R1. 
+
+ex43_1(0, 0).
+ex43_1(N, R) :-
+  N1 is N - 1,
+  ex43_1(N1, R1),
+  R is N + R1.
+
+% ?- ex43_1(5, R).
+% R = 15 ;
+% ERROR: Stack limit (1.0Gb) exceeded
+% ERROR:   Stack sizes: local: 0.9Gb, global: 77.8Mb, trail: 0Kb
+% ERROR:   Stack depth: 10,191,138, last-call: 0%, Choice points: 3
+% ERROR:   Possible non-terminating recursion:
+% ERROR:     [10,191,138] user:ex43_1(-10191123, _20382364)
+% ERROR:     [10,191,137] user:ex43_1(-10191122, _20382384)
+
+is_eight(X) :- X =:= 8.
+is_even(X) :- 0 =:= X mod 2.
+
+favorite_number(X) :-
+  is_eight(X), !, fail.
+favorite_number(X) :-
+  is_even(X).
+
+favorite_number1(X) :-
+  is_eight(X), fail. % without cut it will redo and match next predicate
+favorite_number1(X) :-
+  is_even(X).
+
+% [trace]  ?- favorite_number(8).
+%    Call: (10) favorite_number(8) ? creep
+%    Call: (11) is_eight(8) ? creep
+%    Call: (12) 8=:=8 ? creep
+%    Exit: (12) 8=:=8 ? creep
+%    Exit: (11) is_eight(8) ? creep
+%    Call: (11) fail ? creep
+%    Fail: (11) fail ? creep
+%    Fail: (10) favorite_number(8) ? creep
+% false.
+
+% [trace]  ?- favorite_number1(8).
+%    Call: (10) favorite_number1(8) ? creep
+%    Call: (11) is_eight(8) ? creep
+%    Call: (12) 8=:=8 ? creep
+%    Exit: (12) 8=:=8 ? creep
+%    Exit: (11) is_eight(8) ? creep
+%    Call: (11) fail ? creep
+%    Fail: (11) fail ? creep
+%    Redo: (10) favorite_number1(8) ? creep
+%    Call: (11) is_even(8) ? creep
+%    Call: (12) 0=:=8 mod 2 ? creep
+%    Exit: (12) 0=:=8 mod 2 ? creep
+%    Exit: (11) is_even(8) ? creep
+%    Exit: (10) favorite_number1(8) ? creep
+% true.
