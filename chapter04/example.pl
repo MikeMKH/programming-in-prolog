@@ -191,3 +191,10 @@ favorite_number1(X) :-
 %    Exit: (11) is_even(8) ? creep
 %    Exit: (10) favorite_number1(8) ? creep
 % true.
+
+divide(X, Y, Result) :-
+  is_integer(Result), % defined at top of file
+  Product is Result * Y,
+  Product1 is (Result + 1) * Y,
+  Product =< X, Product1 > X,
+  !.
