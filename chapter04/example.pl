@@ -198,3 +198,32 @@ divide(X, Y, Result) :-
   Product1 is (Result + 1) * Y,
   Product =< X, Product1 > X,
   !.
+
+% 4.4 problems with the cut
+
+oneway_append([], X, X) :- !.
+oneway_append([H|T], X, [H|R]) :- oneway_append(T, X, R).
+
+% ?- oneway_append([1, 2], [a, b], R).
+% R = [1, 2, a, b].
+
+% ?- oneway_append(X, Y, [1, 2, 3]).
+% X = [],
+% Y = [1, 2, 3].
+
+both_append([], X, X).
+both_append([H|T], X, [H|R]) :- both_append(T, X, R).
+
+% ?- both_append(X, Y, [1, 2, 3]).
+% X = [],
+% Y = [1, 2, 3] ;
+% X = [1],
+% Y = [2, 3] ;
+% X = [1, 2],
+% Y = [3] ;
+% X = [1, 2, 3],
+% Y = [] ;
+% false.
+
+% ?- both_append([1, 2], [a, b], R).
+% R = [1, 2, a, b].
