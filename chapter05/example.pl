@@ -30,3 +30,19 @@ tease_message(3, Name, Message) :-
 % ?- write_canonical(tease('Lily')).
 % tease('Lily')
 % true.
+
+% 5.2 reading and writing characters
+
+check_line(OK) :-
+  get_char(X),
+  rest_line('\n', X, OK).
+rest_line(_, '\n', true).
+rest_line(Last, Current, false) :-
+  typing_error(Last, Current), !,
+  get_char(Next),
+  rest_line(Current, Next, _).
+rest_line(_, Current, OK) :-
+  get_char(Next),
+  rest_line(Current, Next, OK).
+typing_error('q', 'w').
+typing_error('c', 'v').
