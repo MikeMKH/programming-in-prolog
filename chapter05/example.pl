@@ -36,7 +36,7 @@ tease_message(3, Name, Message) :-
 check_line(OK) :-
   get_char(X),
   rest_line('\n', X, OK).
-rest_line(_, '\n', true).
+rest_line(_, '\n', true) :- !.
 rest_line(Last, Current, false) :-
   typing_error(Last, Current), !,
   get_char(Next),
@@ -46,3 +46,47 @@ rest_line(_, Current, OK) :-
   rest_line(Current, Next, OK).
 typing_error('q', 'w').
 typing_error('c', 'v').
+
+% ?- check_line(R).
+% |: hello
+% R = true.
+
+% ?- check_line(R).
+% |: qween
+% R = false.
+
+% ?- check_line(R).
+% |: cvy
+% R = false.
+
+% ?- check_line(R).
+% |: two times two is three
+% R = true.
+
+correct_line :-
+  get_char(X),
+  correct_rest_line('\n', X).
+correct_rest_line(C, '\n') :-
+  !, put_char(C), nl.
+correct_rest_line(Last, Current) :-
+  typing_correction(Last, Current, Correct), !,
+  get_char(Next),
+  correct_rest_line(Correct, Next).
+correct_rest_line(Last, Current) :-
+  put_char(Last),
+  get_char(Next),
+  correct_rest_line(Current, Next).
+typing_correction('q', 'w', 'q').
+typing_correction('c', 'v', 'c').
+
+% ?- correct_line.
+% |: hello
+
+% hello
+% true.
+
+% ?- correct_line.
+% |: qwueen cvry my thyme
+
+% queen cry my thyme
+% true.
