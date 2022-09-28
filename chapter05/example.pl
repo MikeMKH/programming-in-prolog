@@ -90,3 +90,19 @@ typing_correction('c', 'v', 'c').
 
 % queen cry my thyme
 % true.
+
+% 5.3 reading english sentences
+
+ex53_2 :-
+  process53_2(' ').
+process53_2('$') :-
+  nl,write('Good bye.'),nl.
+process53_2('\n') :-
+  nl,process53_2(' ').
+process53_2(Last) :-
+  get_char(Next),
+  translate53_2(Last, Print),
+  put_char(Print),
+  process53_2(Next).
+translate53_2('a', 'b').
+translate53_2(X, X).
