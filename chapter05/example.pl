@@ -106,3 +106,38 @@ process53_2(Last) :-
   process53_2(Next).
 translate53_2('a', 'b').
 translate53_2(X, X).
+
+% 5.4 reading and writing files
+
+create_file(File) :-
+  current_output(Output),
+  open(File, write, X),
+  write_to_file(X),
+  close(X),
+  set_output(Output).
+write_to_file(Stream) :-
+  set_output(Stream),
+  get_char(Char),
+  write_char_to_file(Char).
+write_char_to_file('$') :- !.
+write_char_to_file(Char) :-
+  put_char(Char),
+  get_char(Next),
+  write_char_to_file(Next).
+
+display_file(File) :-
+  current_input(Input),
+  open(File, read, X),
+  read_from_file(X),
+  close(X),
+  set_input(Input).
+read_from_file(Stream) :-
+  set_input(Stream),
+  get_char(Char),
+  read_char_from_file(Char).
+read_char_from_file(end_of_file) :- !.
+read_char_from_file(Char) :-
+  put_char(Char),
+  get_char(Next),
+  read_char_from_file(Next).
+
