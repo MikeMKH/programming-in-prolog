@@ -12,10 +12,10 @@ bar :-
 % 6.3 classifying terms
 
 baz :-
-  var(X).
+  var(_X).
 
 qux :-
-  nonvar(X).
+  nonvar(_X).
 
 checker1(X) :-
   atom(X).
@@ -52,3 +52,12 @@ checker3(X) :-
 
 % ?- checker3('hello').
 % true.
+
+% 6.4 treating clauses as terms
+
+':-'(add5(X, R), plus(5, X, R)).
+
+:- dynamic foo/3, bar/2.
+
+:- asserta(foo(X, Y, R) :- plus(X, Y, R)).
+:- asserta(bar(X, R) :- foo(X, 8, R)).
