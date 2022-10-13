@@ -61,3 +61,59 @@ checker3(X) :-
 
 :- asserta(foo(X, Y, R) :- plus(X, Y, R)).
 :- asserta(bar(X, R) :- foo(X, 8, R)).
+
+% 6.5 constructing and accessing component of structures
+
+ex65_1 :-
+  functor([a, b, c], F1, 2),
+  write('functor([a, b, c], F1, 2)'),nl,
+  write('F1='),write(F1),nl,
+  nl,
+  functor(A2, '[|]', 2),
+  write('functor(A2, ''[|]'', 2)'),nl,
+  write('A2='),write(A2),nl.
+
+copy(Old, New) :-
+  functor(Old, F, N),
+  functor(New, F, N).
+
+% ?- copy(plus(1, 2, X), R).
+% R = plus(_, _, _).
+
+% ?- copy(plus(1, 2, 4), R).
+% R = plus(_, _, _).
+
+% ?- copy(R0, plus(1, 2, 3)).
+% ERROR: Arguments are not sufficiently instantiated
+
+% ?- copy(plus(1, 2, 3), plus(_, _, _)).
+% true.
+
+% ?- copy(plus(1, 2, 3), plus(_, _, 3)).
+% true.
+
+ex65_2 :-
+  arg(2, f(1, 2, 3), X1),
+  write('arg(2, f(1, 2, 3), X1)'),nl,
+  write('X1='),write(X1),nl,
+  nl,
+  arg(N2, f(1, 2, 3), 3),
+  write('arg(N2, f(1, 2, 3), 3)'),nl,
+  write('N2='),write(N2),nl.
+
+ex65_3 :-
+  f(1, 2, 3) =.. X1,
+  write('f(1, 2, 3) =.. X1'),nl,
+  write('X1='),write(X1),nl,
+  nl,
+  [a, b, c] =.. L2,
+  write('[a, b, c] =.. L2'),nl,
+  write('L2'),write(L2),nl,
+  nl,
+  (a+b) =.. [+, X3, Y3],
+  write('(a+b) =.. [+, X3, Y3]'),nl,
+  write('X3='),write(X3),write(' Y3='),write(Y3),nl,
+  nl,
+  [1, 2, 3] =.. [X4|Y4],
+  write('[1, 2, 3] =.. [X4|Y4]'),nl,
+  write('X4='),write(X4),write(' Y4='),write(Y4),nl.
