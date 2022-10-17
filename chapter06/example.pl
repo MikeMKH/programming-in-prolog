@@ -117,3 +117,9 @@ ex65_3 :-
   [1, 2, 3] =.. [X4|Y4],
   write('[1, 2, 3] =.. [X4|Y4]'),nl,
   write('X4='),write(X4),write(' Y4='),write(Y4),nl.
+
+% 6.6 affecting backtracking
+
+new_get(X) :- repeat, get_char(X).
+
+get_non_space(X) :- new_get(X), \+ X = ' ', !.
