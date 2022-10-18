@@ -123,3 +123,39 @@ ex65_3 :-
 new_get(X) :- repeat, get_char(X).
 
 get_non_space(X) :- new_get(X), \+ X = ' ', !.
+
+% 6.7 constructing compund goals
+
+search_and_print(X, L) :-
+  member(X, L), write(X).
+
+double_negative_search_and_print(X, L) :-
+  \+ \+ member(X, L), write(X).
+
+% ?- search_and_print(1, [2, 3, 4, 1]).
+% 1
+% true.
+
+% ?- search_and_print(1, [2, 3, 4, 5]).
+% false.
+
+% ?- double_negative_search_and_print(1, [2, 3, 4, 1]).
+% 1
+% true.
+
+% ?- double_negative_search_and_print(1, [2, 3, 4, 5]).
+% false.
+
+% ?- double_negative_search_and_print(X, [2, 3, 4, 5]).
+% _9428
+% true.
+
+% ?- search_and_print(X, [2, 3, 4, 5]).
+% 2
+% X = 2 ;
+% 3
+% X = 3 ;
+% 4
+% X = 4 ;
+% 5
+% X = 5.
