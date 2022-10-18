@@ -159,3 +159,27 @@ double_negative_search_and_print(X, L) :-
 % X = 4 ;
 % 5
 % X = 5.
+
+% 6.8 equality
+
+% ?- X = Y.
+% X = Y.
+
+% ?- X == Y.
+% false.
+
+% ?- X = Y, X == Y.
+% X = Y.
+
+% ?- append([A|B], C) = append(X, Y).
+% C = Y,
+% X = [A|B].
+
+% ?- append([A|B], C) == append(X, Y).
+% false.
+
+% ?- append([A|B], C) = append([A|B], C).
+% true.
+
+% ?- append([A|B], C) == append([A|B], C).
+% true.
