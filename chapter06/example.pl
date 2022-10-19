@@ -183,3 +183,9 @@ double_negative_search_and_print(X, L) :-
 
 % ?- append([A|B], C) == append([A|B], C).
 % true.
+
+% 6.9 input and output
+
+ex69_1 :-
+  write('write('),write(2 + 2),write(')'),nl,
+  write_canonical('write_canonical('),write_canonical(2 + 2),write_canonical(')'),nl.
