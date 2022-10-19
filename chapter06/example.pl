@@ -189,3 +189,15 @@ double_negative_search_and_print(X, L) :-
 ex69_1 :-
   write('write('),write(2 + 2),write(')'),nl,
   write_canonical('write_canonical('),write_canonical(2 + 2),write_canonical(')'),nl.
+
+% 6.10 handling files
+
+create_hello(FileName) :-
+  current_output(Output),
+  write('creating '),write(FileName),write('....'),nl,
+  open(FileName, write, File),
+  set_output(File),
+  write('hello'),nl,
+  close(File),
+  set_output(Output),
+  write('....done'),nl.
