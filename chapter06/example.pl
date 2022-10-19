@@ -201,3 +201,12 @@ create_hello(FileName) :-
   close(File),
   set_output(Output),
   write('....done'),nl.
+
+% 6.11 evaluating arithmetic expressions
+
+ex611_1 :-
+  R1 is 5 / 2,
+  write('5 / 2 = '),write(R1),nl, % real
+  R2 is 5 // 2,
+  write('5 // 2 = '),write(R2),nl. % int
+  
