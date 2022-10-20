@@ -210,3 +210,37 @@ ex611_1 :-
   R2 is 5 // 2,
   write('5 // 2 = '),write(R2),nl. % int
   
+% 6.12 comparing terms
+
+% ?- 3 = 3.
+% true.
+
+% ?- X = 3, X = 3.
+% X = 3.
+
+% ?- X = 3, X =:= 3.
+% X = 3.
+
+% ?- X = 4.
+% X = 4.
+
+% ?- X =:= 4.
+% ERROR: Arguments are not sufficiently instantiated
+
+% ?- g(X) @< f(X, Y).
+% true.
+
+% ?- f(X, b) @< f(a, B).
+% true.
+
+% ?- f(A, b) @< f(a, B).
+% true.
+
+% ?- 123 @< 123.
+% false.
+
+% ?- 123 @< 124.
+% true.
+
+% ?- 123.4 @< 1234.
+% true.
