@@ -26,3 +26,38 @@ lookup(H, winning(H1, _, _, R), G) :-
 
 % ?- lookup(e, T, 5), lookup(d, T, 4), lookup(c, T, 3), lookup(b, T, 2), lookup(a, T, 1).
 % T = winning(e, 5, winning(d, 4, winning(c, 3, winning(b, 2, winning(a, 1, _, _), _), _), _), _) .
+
+% 7.2 searching a maze
+
+d(a, b). d(b, a).
+d(b, e). d(e, b).
+d(b, c). d(c, b).
+d(d, e). d(e, d).
+d(c, d). d(d, c).
+d(e, f). d(f, e).
+d(g, e). d(e, g).
+
+has_treasure(g).
+% has_treasure(g) :-
+%   write('found treasure in g'), nl. % ex 7.2
+
+go(X, X, P, R) :-
+  reverse(P, R), !.
+go(X, Y, P, R) :-
+  d(X, Z),
+  \+ member(Z, P),
+  % write('enter room '),write(Z),nl, % ex 7.2
+  go(Z, Y, [Z|P], R).
+  % go(Z, Y, [Z|P], R), !. % ex 7.3 just one path
+
+% ?- go(a, f, [], P).
+% P = [b, e, f] ;
+% P = [b, c, d, e, f] ;
+% false.
+
+% ?- has_treasure(T), go(a, T, [], P).
+% T = g,
+% P = [b, e, g] ;
+% T = g,
+% P = [b, c, d, e, g] ;
+% false.
