@@ -61,3 +61,104 @@ go(X, Y, P, R) :-
 % T = g,
 % P = [b, c, d, e, g] ;
 % false.
+
+% 7.3 towers of hanoi
+
+hanoi(N) :-
+  move(N, left, center, right).
+
+move(0, _, _, _) :- !.
+move(N, Source, Destination, Extra) :-
+  N1 is N - 1,
+  move(N1, Source, Extra, Destination),
+  inform(Source, Destination),
+  move(N1, Extra, Destination, Source).
+
+inform(From, To) :-
+  write(From),write(' => '),write(To),nl.
+
+% ?- hanoi(3).
+% left => center
+% left => right
+% center => right
+% left => center
+% right => left
+% right => center
+% left => center
+% true.
+
+% [1,2,3] [] []
+% [2,3] [1] []
+% [3] [1] [2]
+% [3] [] [1,2]
+% [] [3] [1,2]
+% [1] [3] [2]
+% [1] [2,3] []
+% [] [1,2,3] []
+
+% [trace]  ?- hanoi(2).
+%    Call: (10) hanoi(2) ? creep
+%    Call: (11) move(2, left, center, right) ? creep
+%    Call: (12) _38838 is 2+ -1 ? creep
+%    Exit: (12) 1 is 2+ -1 ? creep
+%    Call: (12) move(1, left, right, center) ? creep
+%    Call: (13) _41116 is 1+ -1 ? creep
+%    Exit: (13) 0 is 1+ -1 ? creep
+%    Call: (13) move(0, left, center, right) ? creep
+%    Exit: (13) move(0, left, center, right) ? creep
+%    Call: (13) inform(left, right) ? creep
+%    Call: (14) write(left) ? creep
+% left
+%    Exit: (14) write(left) ? creep
+%    Call: (14) write(' => ') ? creep
+%  => 
+%    Exit: (14) write(' => ') ? creep
+%    Call: (14) write(right) ? creep
+% right
+%    Exit: (14) write(right) ? creep
+%    Call: (14) nl ? creep
+
+%    Exit: (14) nl ? creep
+%    Exit: (13) inform(left, right) ? creep
+%    Call: (13) move(0, center, right, left) ? creep
+%    Exit: (13) move(0, center, right, left) ? creep
+%    Exit: (12) move(1, left, right, center) ? creep
+%    Call: (12) inform(left, center) ? creep
+%    Call: (13) write(left) ? creep
+% left
+%    Exit: (13) write(left) ? creep
+%    Call: (13) write(' => ') ? creep
+%  => 
+%    Exit: (13) write(' => ') ? creep
+%    Call: (13) write(center) ? creep
+% center
+%    Exit: (13) write(center) ? creep
+%    Call: (13) nl ? creep
+
+%    Exit: (13) nl ? creep
+%    Exit: (12) inform(left, center) ? creep
+%    Call: (12) move(1, right, center, left) ? creep
+%    Call: (13) _62188 is 1+ -1 ? creep
+%    Exit: (13) 0 is 1+ -1 ? creep
+%    Call: (13) move(0, right, left, center) ? creep
+%    Exit: (13) move(0, right, left, center) ? creep
+%    Call: (13) inform(right, center) ? creep
+%    Call: (14) write(right) ? creep
+% right
+%    Exit: (14) write(right) ? creep
+%    Call: (14) write(' => ') ? creep
+%  => 
+%    Exit: (14) write(' => ') ? creep
+%    Call: (14) write(center) ? creep
+% center
+%    Exit: (14) write(center) ? creep
+%    Call: (14) nl ? creep
+
+%    Exit: (14) nl ? creep
+%    Exit: (13) inform(right, center) ? creep
+%    Call: (13) move(0, left, center, right) ? creep
+%    Exit: (13) move(0, left, center, right) ? creep
+%    Exit: (12) move(1, right, center, left) ? creep
+%    Exit: (11) move(2, left, center, right) ? creep
+%    Exit: (10) hanoi(2) ? creep
+% true.
