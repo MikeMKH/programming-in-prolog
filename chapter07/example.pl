@@ -162,3 +162,4 @@ inform(From, To) :-
 %    Exit: (11) move(2, left, center, right) ? creep
 %    Exit: (10) hanoi(2) ? creep
 % true.
+
