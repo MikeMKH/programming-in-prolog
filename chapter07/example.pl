@@ -163,3 +163,31 @@ inform(From, To) :-
 %    Exit: (10) hanoi(2) ? creep
 % true.
 
+% 7.4 parts inventory
+
+partlist(P) :-
+  collect(P, Q),
+  printpartlist(Q).
+
+collect([], []).
+collect([quant(X,N)|L1], [quant(X,Ntotal)|L2]) :-
+  collectrest(X, N, L1, Others, Ntotal),
+  collect(Others, L2).
+
+collectrest(_, N, [], [], N).
+collectrest(X, N, [quant(X,Num)|Rest], Others, Ntotal) :-
+  !,
+  M is N + Num,
+  collectrest(X, M, Rest, Others, Ntotal).
+collectrest(X, N, [Other|Rest], [Other|Others], Ntotal) :-
+  collectrest(X, N, Rest, Others, Ntotal).
+
+printpartlist([]).
+printpartlist([quant(X,N)|R]) :-
+  write(N),put_char('\t'),write(X),nl,
+  printpartlist(R).
+
+% ?- partlist([quant(a,1),quant(b,3),quant(c,2),quant(a,2)]).
+% 3       a
+% 3       b
+% 2       c
