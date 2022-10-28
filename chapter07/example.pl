@@ -191,3 +191,146 @@ printpartlist([quant(X,N)|R]) :-
 % 3       a
 % 3       b
 % 2       c
+
+% 7.5 list processing
+
+last0(X, [X]).
+last0(X, [_|Y]) :- last0(X, Y).
+
+% ?- last0(X, [1, 2, 3]).
+% X = 3 ;
+% false.
+
+% ?- last0(3, [1, 2, 3]).
+% true .
+
+% ?- last0(3, L).
+% L = [3] ;
+% L = [_, 3] ;
+% L = [_, _, 3] ;
+% L = [_, _, _, 3] .
+
+nextto0(X, Y, [X,Y|_]).
+nextto0(X, Y, [_|Z]) :- nextto0(X, Y, Z).
+
+% ?- nextto0(1, 2, [0, 1, 2, 3]).
+% true .
+
+% ?- nextto0(1, Y, [0, 1, 2, 3]).
+% Y = 2 .
+
+% ?- nextto0(X, 3, [0, 1, 2, 3]).
+% X = 2 .
+
+% ?- nextto0(3, Y, [0, 1, 2, 3]).
+% false.
+
+% ?- nextto0(X, Y, [0, 1, 2, 3]).
+% X = 0,
+% Y = 1 ;
+% X = 1,
+% Y = 2 .
+
+% ?- nextto0(1, 2, L).
+% L = [1, 2|_] ;
+% L = [_, 1, 2|_] ;
+% L = [_, _, 1, 2|_] .
+
+append0([], L, L).
+append0([X|L1], L2, [X|L3]) :- append0(L1, L2, L3).
+
+% ?- append0([a, b], [1, 2], L).
+% L = [a, b, 1, 2].
+
+% ?- append0([a, b], Y, [a, b, 3, 4]).
+% Y = [3, 4].
+
+% ?- append0(X, [3, 4], [a, b, 3, 4]).
+% X = [a, b] .
+
+% ?- append0([a, b], [3, 4], [a, b, 3, 4]).
+% true.
+
+% ?- append0([a, b], [no], [a, b, 3, 4]).
+% false.
+
+% ?- append0(X, Y, [a, b, 3, 4]).
+% X = [],
+% Y = [a, b, 3, 4] ;
+% X = [a],
+% Y = [b, 3, 4] ;
+% X = [a, b],
+% Y = [3, 4] ;
+% X = [a, b, 3],
+% Y = [4] .
+
+last1(X, L) :- append0(_, [X], L).
+nextto1(X, Y, L) :- append0(_, [X,Y|_], L).
+member0(X, L) :- append0(_, [X|_], L).
+
+% ?- last1(X, [1, 2, 3]).
+% X = 3 ;
+% false.
+
+% ?- nextto1(X, Y, [1, 2, 3]).
+% X = 1,
+% Y = 2 ;
+% X = 2,
+% Y = 3 ;
+% false.
+
+% ?- member0(X, [1, 2, 3]).
+% X = 1 ;
+% X = 2 ;
+% X = 3 ;
+% false.
+
+% ?- member0(2, [1, 2, 3]).
+% true .
+
+reverse0([], []).
+reverse0([H|T], L) :-
+  reverse0(T, L1), append0(L1, [H], L).
+
+reverse1(L, R) :- revacc1(L, [], R).
+revacc1([], L, L).
+revacc1([X|L1], L2, L3) :-
+  revacc1(L1, [X|L2], L3).
+
+% ?- reverse1([1, 2, 3], L).
+% L = [3, 2, 1].
+
+% ?- reverse1(L, [4, 5, 6]).
+% L = [6, 5, 4] .
+
+% ?- reverse1([1, 2, 3], [X|1]).
+% false.
+
+% ?- reverse1([1, 2, 3], [3|X]).
+% X = [2, 1].
+
+remove1(_, [], []).
+remove1(X, [X|L], L) :- !.
+remove1(X, [Y|L], [Y|M]) :- remove1(X, L, M).
+
+% ?- remove1(1, [1, 2, 3, 1, 2, 3, 4], L).
+% L = [2, 3, 1, 2, 3, 4].
+
+% ?- remove1(a, [1, 2, 3, 1, 2, 3, 4], L).
+% L = [1, 2, 3, 1, 2, 3, 4] .
+
+% ?- remove1(X, [1, 2, 3], [1, 2, 3, 4]).
+% false.
+
+% ?- remove1(1, L, [1, 2, 3, 4]).
+% L = [1, 1, 2, 3, 4].
+
+removeall(_, [], []).
+removeall(X, [X|L], M) :- !, removeall(X, L, M).
+removeall(X, [Y|L], [Y|M]) :- removeall(X, L, M).
+
+% ?- removeall(a, [1, 2, 3, 1, 2, 3, 4], L).
+% L = [1, 2, 3, 1, 2, 3, 4] .
+
+% ?- remove1(1, L, [1, 2, 3, 4]).
+% L = [1, 1, 2, 3, 4].
