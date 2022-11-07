@@ -332,5 +332,113 @@ removeall(X, [Y|L], [Y|M]) :- removeall(X, L, M).
 % ?- removeall(a, [1, 2, 3, 1, 2, 3, 4], L).
 % L = [1, 2, 3, 1, 2, 3, 4] .
 
-% ?- remove1(1, L, [1, 2, 3, 4]).
-% L = [1, 1, 2, 3, 4].
+% 7.6 representing and manipulating sets
+
+element_of(X, [X|_]).
+element_of(X, [_|Y]) :- element_of(X, Y).
+
+% ?- element_of(2, [1, 2, 3]).
+% true .
+
+% ?- element_of(2, []).
+% false.
+
+% ?- element_of(2, [4, 5, 6]).
+
+subset([], _).
+subset([X|R], Y) :- element_of(X, Y), subset(R, Y).
+
+% ?- subset([], []).
+% true.
+
+% ?- subset([], [1, 2, 3]).
+% true.
+
+% ?- subset([1], [1, 2, 3]).
+% true .
+
+% ?- subset([1, 3], [1, 2, 3]).
+% true .
+
+% ?- subset([1, 3], [4, 5, 6]).
+% false.
+
+% ?- subset([1, 4], [4, 5, 6]).
+% false.
+
+intersection([], _, []).
+intersection([X|R], Y, [X|Z]) :-
+  element_of(X, Y),
+  !,
+  intersection(R, Y, Z).
+intersection([_|R], Y, Z) :- intersection(R, Y, Z).
+
+% ?- intersection([], [], R).
+% R = [].
+
+% ?- intersection([], [1, 2, 3], R).
+% R = [].
+
+% ?- intersection([1, 3], [], R).
+% R = [].
+
+% ?- intersection([1], [1, 2, 3], R).
+% R = [1].
+
+% ?- intersection([1, 3], [1, 2, 3], R).
+% R = [1, 3].
+
+% ?- intersection([1, 3], [4, 5, 6], R).
+% R = [].
+
+% ?- intersection([1, 3, 4], [4, 5, 6], R).
+% R = [4].
+
+union([], S, S).
+union([X|R], Y, Z) :-
+  element_of(X, Y),
+  !,
+  union(R, Y, Z).
+union([X|R], Y, [X|Z]) :- union(R, Y, Z).
+
+% ?- union([], [1], R).
+% R = [1].
+
+% ?- union([1], [2, 3], R).
+% R = [1, 2, 3].
+
+% ?- union([1, 2], [3, 4, 5], R).
+% R = [1, 2, 3, 4, 5].
+
+% ?- union([1, 2], [1, 2, 3, 4, 5], R).
+% R = [1, 2, 3, 4, 5].
+
+% ?- union([1, 2], [], R).
+% R = [1, 2].
+
+% ?- union([1, 2], Y, [1, 2, 3]).
+% Y = [1, 2, 3].
+
+% ?- union(X, Y, [1, 2, 3]).
+% X = [],
+% Y = [1, 2, 3] ;
+% X = [1],
+% Y = [1, 2, 3] ;
+% X = [1, 1],
+% Y = [1, 2, 3] ;
+% X = [1, 1, 1],
+% Y = [1, 2, 3] ;
+% X = [1, 1, 1, 1],
+% Y = [1, 2, 3] ;
+% X = [1, 1, 1, 1, 1],
+% Y = [1, 2, 3] ;
+% X = [1, 1, 1, 1, 1, 1],
+% Y = [1, 2, 3] ;
+% X = [1, 1, 1, 1, 1, 1, 1],
+% Y = [1, 2, 3] ;
+% X = [1, 1, 1, 1, 1, 1, 1, 1],
+% Y = [1, 2, 3] ;
+% X = [1, 1, 1, 1, 1, 1, 1, 1, 1],
+% Y = [1, 2, 3] ;
+% X = [1, 1, 1, 1, 1, 1, 1, 1, 1|...],
+% Y = [1, 2, 3] .
