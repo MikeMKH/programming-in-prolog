@@ -442,3 +442,51 @@ union([X|R], Y, [X|Z]) :- union(R, Y, Z).
 % Y = [1, 2, 3] ;
 % X = [1, 1, 1, 1, 1, 1, 1, 1, 1|...],
 % Y = [1, 2, 3] .
+
+% 7.7 sorting
+
+naive_sort(O, L, R) :- permutation(L, R), sorted(O, R), !.
+sorted(_, []).
+sorted(_, [_]).
+sorted(O, [X,Y|R]) :-
+  P =.. [O, X, Y],
+  call(P),
+  sorted(O, [Y|R]).
+
+% ?- naive_sort(<, [1, 2, 3], R).
+% R = [1, 2, 3].
+
+% ?- naive_sort(<, [2, 1, 3], R).
+% R = [1, 2, 3].
+
+% ?- naive_sort(<, [3, 2, 1], R).
+% R = [1, 2, 3].
+
+% ?- naive_sort(@<, [a, b, c, aaa, d, aa, e, aaaa, f], R).
+% R = [a, aa, aaa, aaaa, b, c, d, e, f].
+
+% ex 7.5
+
+% ?- permutation([1, 2, 3], R).
+% R = [1, 2, 3] ;
+% R = [1, 3, 2] ;
+% R = [2, 1, 3] ;
+% R = [2, 3, 1] ;
+% R = [3, 1, 2] ;
+% R = [3, 2, 1] ;
+% false.
+
+% ex 7.6
+
+my_sort(O, L, R) :-
+  length(L, Len),
+  (Len < 4
+  -> naive_sort(O, L, R)
+  ; sort(0, O, L, R)).
+
+% ?- my_sort(>, [1, 2, 3], R).
+% R = [3, 2, 1].
+
+% ?- my_sort(>, [1, 2, 3, 4], R).
+% R = [4, 3, 2, 1].
+
