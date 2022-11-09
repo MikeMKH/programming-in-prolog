@@ -490,3 +490,52 @@ my_sort(O, L, R) :-
 % ?- my_sort(>, [1, 2, 3, 4], R).
 % R = [4, 3, 2, 1].
 
+% 7.8 using the database
+
+% ex 7.7
+
+random_pick(L, E) :-
+  length(L, Length),
+  random_between(1, Length, Index),
+  nth1(Index, L, E).
+
+% ?- random_pick([1, 2, 3], E).
+% E = 3.
+
+% ?- random_pick([1, 2, 3], E).
+% E = 1.
+
+% ?- random_pick([1, 2, 3], E).
+% E = 2.
+
+% ?- random_pick([1, 2, 3], E).
+% E = 1.
+
+% ?- random_pick([1, 2, 3], E).
+% E = 3.
+
+% ex 7.8
+
+% ?- findall(X, member(X, [1, 2, 3]), R).
+% R = [1, 2, 3].
+
+% ?- findall(X, member(Y, [1, 2, 3]), R).
+% R = [_, _, _].
+
+% ?- findall(X, member(X, []), R).
+% R = [].
+
+% ?- findall(X, member(Y, []), R).
+% R = [].
+
+% ?- findall(hello, member(X, [1, 2, 3]), R).
+% R = [hello, hello, hello].
+
+% ?- findall(foo(X,Y), (member(X,[1,2]),member(Y,[a,b])), R).
+% R = [foo(1, a), foo(1, b), foo(2, a), foo(2, b)].
+
+% ?- findall(foo(X,Y), (member(X,[1,2]),member(Y,[a,b,c])), R).
+% R = [foo(1, a), foo(1, b), foo(1, c), foo(2, a), foo(2, b), foo(2, c)].
+
+% ?- findall(foo(X,Y,hi,bye), (member(X,[1,2]),member(Y,[a,b,c])), R).
+% R = [foo(1, a, hi, bye), foo(1, b, hi, bye), foo(1, c, hi, bye), foo(2, a, hi, bye), foo(2, b, hi, bye), foo(2, c, hi, bye)].
