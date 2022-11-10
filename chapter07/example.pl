@@ -539,3 +539,51 @@ random_pick(L, E) :-
 
 % ?- findall(foo(X,Y,hi,bye), (member(X,[1,2]),member(Y,[a,b,c])), R).
 % R = [foo(1, a, hi, bye), foo(1, b, hi, bye), foo(1, c, hi, bye), foo(2, a, hi, bye), foo(2, b, hi, bye), foo(2, c, hi, bye)].
+
+% 7.9 searching graphs
+
+a(g,h).
+a(g,d).
+a(e,d).
+a(h,f).
+a(e,f).
+a(a,e).
+a(a,b).
+a(b,f).
+a(b,c).
+a(f,c).
+
+go0(X,X).
+go0(X,Y) :- a(X,Z),go0(Z,Y).
+
+% ?- go0(a,h).
+% false.
+
+% ?- go0(a,c).
+% true ;
+% true ;
+% true ;
+% false.
+
+go(Start, End, Route) :-
+  go1(Start, End, [], R),
+  reverse(R, Route).
+
+go1(X, X, T, [X|T]).
+go1(X, Y, T, R) :-
+  a(X, Z),
+  legal(Z, T),
+  go1(Z, Y, [X|T], R).
+legal(_, []).
+legal(X, [H|T]) :-
+  \+ X = H,
+  legal(X, T).
+
+% ?- go(a,c,Path).
+% Path = [a, e, f, c] ;
+% Path = [a, b, f, c] ;
+% Path = [a, b, c] ;
+% false.
+
+% ?- go(a,h,Path).
+% false.
