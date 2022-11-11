@@ -587,3 +587,29 @@ legal(X, [H|T]) :-
 
 % ?- go(a,h,Path).
 % false.
+
+% 7.10 sift the two's and sift the three's
+
+% ex 7.9
+
+pythag(X, Y, Z, N) :-
+  % length(_, N), % https://stackoverflow.com/a/10517031/2370606
+  between(1, N, X),
+  between(1, N, Y),
+  between(1, N, Z),
+  Z * Z =:= X * X + Y * Y.
+
+% ?- pythag(X, Y, Z, 10).
+% X = 3,
+% Y = 4,
+% Z = 5 ;
+% X = 4,
+% Y = 3,
+% Z = 5 ;
+% X = 6,
+% Y = 8,
+% Z = 10 ;
+% X = 8,
+% Y = 6,
+% Z = 10 ;
+% false.
