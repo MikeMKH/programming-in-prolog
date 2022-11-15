@@ -593,11 +593,16 @@ legal(X, [H|T]) :-
 % ex 7.9
 
 pythag(X, Y, Z, N) :-
-  % length(_, N), % https://stackoverflow.com/a/10517031/2370606
+  length(_, N), % https://stackoverflow.com/a/10517031/2370606
   between(1, N, X),
   between(1, N, Y),
   between(1, N, Z),
   Z * Z =:= X * X + Y * Y.
+
+% ?- pythag(X, Y, Z, N).
+% X = 3,
+% Y = 4,
+% Z = N, N = 5 .
 
 % ?- pythag(X, Y, Z, 10).
 % X = 3,
@@ -642,3 +647,6 @@ d(log(U), X, A*U^(-1)) :- d(U, X, A).
 
 % ?- d(5*x+x^2, x, R).
 % R = 5*1+2*x^(2-1)*1.
+
+% 7.12 mapping structures and transforming trees
+
