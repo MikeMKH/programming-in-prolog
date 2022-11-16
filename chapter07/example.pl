@@ -650,3 +650,47 @@ d(log(U), X, A*U^(-1)) :- d(U, X, A).
 
 % 7.12 mapping structures and transforming trees
 
+simpl(E, E) :- atomic(E), !.
+simpl(E, F) :-
+  E =.. [Op, L, R],
+  simpl(L, X),
+  simpl(R, Y),
+  s(Op, X, Y, F).
+
+s(*, 1, X, X).
+s(*, X, 1, X).
+s(*, 0, _, 0).
+s(*, _, 0, 0).
+s(*, X, Y, Z) :-
+  number(X), number(Y),
+  Z is X * Y.
+s(*, X, Y, X*Y). % catch all
+
+s(+, 0, X, X).
+s(+, X, 0, X).
+s(+, X, Y, Z) :-
+  number(X), number(Y),
+  Z is X + Y.
+s(+, X, Y, X+Y). % catch all
+
+s(^, X, 1, X).
+s(^, _, 0, 0).
+s(^, X, Y, Z) :-
+  number(X), number(Y),
+  pow(X, Y, Z).
+s(^, X, Y, X^Y). % catch all
+
+s(-, X, 0, X).
+s(-, X, Y, Z) :-
+  number(X), number(Y),
+  Z is X - Y.
+s(-, X, Y, X-Y). % catch all
+
+% ?- simpl(0 + x * 1 + 0 * y * 1 + 0, R).
+% R = x .
+
+% ?- simpl(0 + x * 1 + y * 1 + 0, R).
+% R = x+y .
+
+% ?- simpl(0 + x * 1 + y * 1 + 0 + 2 * 3 + 1 + 0 * 1 - 2 * 1, R).
+% R = x+y+6+1-2 .
