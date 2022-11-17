@@ -694,3 +694,40 @@ s(-, X, Y, X-Y). % catch all
 
 % ?- simpl(0 + x * 1 + y * 1 + 0 + 2 * 3 + 1 + 0 * 1 - 2 * 1, R).
 % R = x+y+6+1-2 .
+
+% 7.13 manipulating programs
+
+fact(lily, good).
+fact(lily, dog).
+
+l(Head) :-
+  clause(Head, Body),
+  output_clause(Head, Body),write('.'),nl,
+  fail.
+l(_).
+
+output_clause(Head, true) :- !,write(Head).
+output_clause(Head, Body) :- write((Head :- Body)).
+
+% ?- clause(fact(lily, X),B).
+% X = good,
+% B = true ;
+% X = dog,
+% B = true.
+
+% ?- l(fact).
+% true.
+
+% ?- l(fact(Subject,Attribute)).
+% fact(lily,good).
+% fact(lily,dog).
+% true.
+
+% ?- l(fact(lily,Attribute)).
+% fact(lily,good).
+% fact(lily,dog).
+% true.
+
+% ?- l(fact(Subject,good)).
+% fact(lily,good).
+% true.
