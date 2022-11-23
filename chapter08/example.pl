@@ -177,3 +177,73 @@ caz(X, Z) :- foo(X, Y), !, caz(Y, Z).
 %    Fail: (11) caz(aa, _24448) ? creep
 %    Fail: (10) caz(a, _24448) ? creep
 % false.
+
+% 8.4 tracing and spy points
+
+s(X, Y) :- permutation(X, Y), sorted(Y), !.
+sorted([]).
+sorted([_]).
+sorted([X,Y|R]) :-
+  X =< Y,
+  sorted([Y|R]).
+
+% ?- s([1, 2, 3], R).
+% R = [1, 2, 3].
+
+% ?- s([3, 2, 1], R).
+% R = [1, 2, 3].
+
+% ?- s([3, 1, 1], R).
+% R = [1, 1, 3].
+
+% ?- s([3, 1], R).
+% R = [1, 3].
+
+% ?- s([1], R).
+% R = [1].
+
+% ?- s([], R).
+% R = [].
+
+% ?- s(X, [1, 2, 3]).
+% X = [1, 2, 3].
+
+% ?- s([2, X, 3], [1, 2, 3]).
+
+% [trace]  ?- s([3, 2, 1], R).
+%    Call: (10) s([3, 2, 1], _21432) ? creep
+%    Call: (11) lists:permutation([3, 2, 1], _21432) ? skip
+%    Exit: (11) lists:permutation([3, 2, 1], [3, 2, 1]) ? creep
+%    Call: (11) sorted([3, 2, 1]) ? leap
+% R = [1, 2, 3].
+
+% [trace]  ?- s([3, 2, 1], R).
+%    Call: (10) s([3, 2, 1], _30602) ? creep
+%    Call: (11) lists:permutation([3, 2, 1], _30602) ? creep
+%    Exit: (11) lists:permutation([3, 2, 1], [3, 2, 1]) ? creep
+%    Call: (11) sorted([3, 2, 1]) ? creep
+%    Call: (12) 3=<2 ? creep
+%    Fail: (12) 3=<2 ? creep
+%    Fail: (11) sorted([3, 2, 1]) ? creep
+%    Redo: (11) lists:permutation([3, 2, 1], [3, 2, 1]) ? creep
+%    Exit: (11) lists:permutation([3, 2, 1], [3, 1, 2]) ? creep
+%    Call: (11) sorted([3, 1, 2]) ? creep
+%    Call: (12) 3=<1 ? creep
+%    Fail: (12) 3=<1 ? creep
+%    Fail: (11) sorted([3, 1, 2]) ? creep
+%    Redo: (11) lists:permutation([3, 2, 1], [3, 1, 2]) ? creep
+%    Exit: (11) lists:permutation([3, 2, 1], [2, 3, 1]) ? creep
+%    Call: (11) sorted([2, 3, 1]) ? skip
+%    Fail: (11) sorted([2, 3, 1]) ? creep
+%    Redo: (11) lists:permutation([3, 2, 1], [2, 3, 1]) ? fail
+%    Exit: (11) lists:permutation([3, 2, 1], [2, 1, 3]) ? fail
+%    Fail: (10) s([3, 2, 1], _30602) ? retry
+% retry s/2 at level 10
+%    Call: (10) s([3, 2, 1], _30602) ? creep
+%    Call: (11) lists:permutation([3, 2, 1], _30602) ? creep
+%    Exit: (11) lists:permutation([3, 2, 1], [3, 2, 1]) ? creep
+%    Call: (11) sorted([3, 2, 1]) ? fail
+%    Redo: (11) lists:permutation([3, 2, 1], [3, 2, 1]) ? creep
+%    Exit: (11) lists:permutation([3, 2, 1], [3, 1, 2]) ? fail
+%    Fail: (10) s([3, 2, 1], _30602) ? creep
+% false.
