@@ -247,3 +247,23 @@ sorted([X,Y|R]) :-
 %    Exit: (11) lists:permutation([3, 2, 1], [3, 1, 2]) ? fail
 %    Fail: (10) s([3, 2, 1], _30602) ? creep
 % false.
+
+% 8.5 fixing bugs
+
+ap([], X, X).
+ap([A|B], C, [A|D]) :- ap(B, C, D).
+
+rv([], []).
+rv([A|B], C) :- rv(B, D), ap(D, [A], C).
+
+% ?- ap([a,b,c], [1,2,3], X).
+% X = [a, b, c, 1, 2, 3].
+
+% ?- rv([a,b,c],  X).
+% X = [c, b, a].
+
+% ?- ap([], [1,2,3], X).
+% X = [1, 2, 3].
+
+% ?- rv([],  X).
+% X = [].
