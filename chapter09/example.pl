@@ -80,3 +80,37 @@ verb([sings|S], S).
 
 % ?- sentence([the,apple,eats,the,man], [eats,the,man]).
 % false.
+
+% 9.3 the grammar rule notation
+
+sentence1 --> noun_pharse1, verb_pharse1.
+
+noun_pharse1 --> determiner1, noun1.
+
+verb_pharse1 --> verb1, noun_pharse1.
+verb_pharse1 --> verb1.
+
+determiner1 --> [the].
+
+noun1 --> [apple].
+noun1 --> [man].
+noun1 --> [dog].
+noun1 --> [treat].
+
+verb1 --> [eats].
+verb1 --> [sings].
+
+% ?- phrase(sentence1,[the,man,eats,the,apple]).
+% true .
+
+% ?- phrase(sentence1,[the,dog,eats,the,treat]).
+% true .
+
+% ?- phrase(sentence1,[the,apple,eats,the,man]).
+% true .
+
+% ?- phrase(sentence1,[the,dog,eats]).
+% true.
+
+% ?- phrase(sentence1,[eats,the,sing]).
+% false.
