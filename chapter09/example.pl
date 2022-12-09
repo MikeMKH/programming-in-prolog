@@ -153,3 +153,17 @@ verb2(plural) --> [sing].
 
 % ?- phrase(sentence2,[the,dog,eat,the,treat]).
 % false.
+
+% 9.1
+translate(X, Y) :-
+  R =..[X, Y],
+  call(R). % I think this is what is being asked for
+
+% ?- translate(noun, [dog]).
+% true.
+
+% ?- translate(verb, [eats]).
+% true.
+
+% ?- translate(verb, [dog]).
+% false.
