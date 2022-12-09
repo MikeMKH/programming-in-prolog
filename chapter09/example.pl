@@ -114,3 +114,42 @@ verb1 --> [sings].
 
 % ?- phrase(sentence1,[eats,the,sing]).
 % false.
+
+% 9.4 adding extra arguments
+
+sentence2 --> sentence2(_).
+
+sentence2(X) --> noun_pharse2(X), verb_pharse2(X).
+
+noun_pharse2(X) --> determiner2(X), noun2(X).
+
+verb_pharse2(X) --> verb2(X), noun_pharse2(X).
+verb_pharse2(X) --> verb2(X).
+
+determiner2(_) --> [the].
+
+noun2(singular) --> [apple].
+noun2(singular) --> [man].
+noun2(singular) --> [dog].
+noun2(singular) --> [treat].
+noun2(plural) --> [apples].
+noun2(plural) --> [men].
+noun2(plural) --> [dogs].
+noun2(plural) --> [treats].
+
+verb2(singular) --> [eats].
+verb2(singular) --> [sings].
+verb2(plural) --> [eat].
+verb2(plural) --> [sing].
+
+% ?- phrase(sentence2,[the,dog,eats,the,treat]).
+% true .
+
+% ?- phrase(sentence2,[the,dogs,eat,the,treats]).
+% true .
+
+% ?- phrase(sentence2,[the,dogs,eats,the,treats]).
+% false.
+
+% ?- phrase(sentence2,[the,dog,eat,the,treat]).
+% false.
