@@ -167,3 +167,16 @@ translate(X, Y) :-
 
 % ?- translate(verb, [dog]).
 % false.
+
+% 9.2
+phrase1(P, L) :-
+  P =..[Pred|Type],
+  append(Type, [L,[]], Args),
+  G =..[Pred|Args],
+  call(G).
+
+% ?- phrase(sentence2(X), [the,dog,eats,the,treat]).
+% X = singular .
+
+% ?- phrase1(sentence2(X), [the,dog,eats,the,treat]).
+% X = singular .
