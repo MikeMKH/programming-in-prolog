@@ -200,7 +200,7 @@ noun3(plural) -->
   {atom_chars(N, PluralN),
    append(RootN, [s], PluralN),
    atom_chars(SingularN, RootN),
-   is_noun(singular, SingularN)}.
+   is_noun(singular, SingularN)}. % text example has RootN by mistake
 
 is_noun(singular, apple).
 is_noun(singular, man).
