@@ -154,7 +154,7 @@ verb2(plural) --> [sing].
 % ?- phrase(sentence2,[the,dog,eat,the,treat]).
 % false.
 
-% 9.1
+% ex 9.1
 translate(X, Y) :-
   R =..[X, Y],
   call(R). % I think this is what is being asked for
@@ -168,7 +168,7 @@ translate(X, Y) :-
 % ?- translate(verb, [dog]).
 % false.
 
-% 9.2
+% ex 9.2
 phrase1(P, L) :-
   P =..[Pred|Type],
   append(Type, [L,[]], Args),
@@ -179,4 +179,41 @@ phrase1(P, L) :-
 % X = singular .
 
 % ?- phrase1(sentence2(X), [the,dog,eats,the,treat]).
+% X = singular .
+
+% 9.5 adding extra tests
+
+sentence3 --> sentence3(_).
+
+sentence3(X) --> noun_pharse3(X), verb_pharse3(X).
+
+noun_pharse3(X) --> determiner3(X), noun3(X).
+
+verb_pharse3(X) --> verb3(X), noun_pharse3(X).
+verb_pharse3(X) --> verb3(X).
+
+determiner3(_) --> [the].
+
+noun3(S) --> [N], {is_noun(S, N)}.
+noun3(plural) -->
+  [N],
+  {atom_chars(N, PluralN),
+   append(RootN, [s], PluralN),
+   atom_chars(SingularN, RootN),
+   is_noun(singular, SingularN)}.
+
+is_noun(singular, apple).
+is_noun(singular, man).
+is_noun(singular, dog).
+is_noun(singular, treat).
+
+verb3(singular) --> [eats].
+verb3(singular) --> [sings].
+verb3(plural) --> [eat].
+verb3(plural) --> [sing].
+
+% ?- phrase(sentence3(X), [the,dogs,eat,the,treats]).
+% X = plural .
+
+% ?- phrase(sentence3(X), [the,dog,eats,the,treat]).
 % X = singular .
