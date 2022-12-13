@@ -217,3 +217,22 @@ verb3(plural) --> [sing].
 
 % ?- phrase(sentence3(X), [the,dog,eats,the,treat]).
 % X = singular .
+
+% 9.6 summary
+
+expression --> operation, expression, expression.
+expression --> [N], {number(N)}.
+
+operation --> [+].
+operation --> [-].
+operation --> [*].
+operation --> [/].
+
+% ?- phrase(expression, [/,-2,70000000000]).
+% true .
+
+% ?- phrase(expression, [+,2,*,3.4,-,56,7.89]).
+% true .
+
+% ?- phrase(expression, [+,2]).
+% false.
