@@ -236,3 +236,60 @@ operation --> [/].
 
 % ?- phrase(expression, [+,2]).
 % false.
+
+% 9.7 translating language into logic
+
+?- op(500, xfy, &).
+?- op(600, xfy, ->).
+
+sentence4(P) -->
+  noun_pharse4(X, P1, P), verb_pharse4(X, P1).
+
+noun_pharse4(X, P1, P) -->
+  determiner4(X, P2, P1, P),
+  noun4(X, P3),
+  rel_clause4(X, P3, P2).
+noun_pharse4(X, P, P) --> proper_noun4(X).
+
+verb_pharse4(X, P) -->
+  trans_verb4(X, Y, P1), noun_pharse4(Y, P1, P).
+verb_pharse4(X, P) -->
+  intrans_verb4(X, P).
+
+rel_clause4(X, P1, (P1&P2)) -->
+  [that], verb_pharse4(X, P2).
+rel_clause4(_, P, P) --> [].
+
+determiner4(X, P1, P2, all(X, (P1->P2))) --> [every].
+determiner4(X, P1, P2, exists(X, (P1&P2))) --> [a].
+
+noun4(X, man(X)) --> [man].
+noun4(X, woman(X)) --> [woman].
+noun4(X, dog(X)) --> [dog].
+
+proper_noun4(bob) --> [bob].
+proper_noun4(lily) --> [lily].
+
+trans_verb4(X, Y, loves(X,Y)) --> [loves].
+
+intrans_verb4(X, lives(X)) --> [lives].
+
+% ex 9.4
+
+% ?- sentence4(X, [every,man,loves,a,woman], []).
+% X = all(_A, man(_A)->exists(_B, woman(_B)&loves(_A, _B))) .
+
+% ?- sentence4(X, [every,man,that,lives,loves,a,woman], []).
+% X = all(_A, man(_A)&lives(_A)->exists(_B, woman(_B)&loves(_A, _B))) .
+
+% ?- sentence4(X, [bob,loves,a,woman], []).
+% X = exists(_A, woman(_A)&loves(bob, _A)) .
+
+% ?- sentence4(X, [bob,loves,every,woman], []).
+% X = all(_A, woman(_A)->loves(bob, _A)) .
+
+% ?- sentence4(X, [lily,loves,every,dog], []).
+% X = all(_A, dog(_A)->loves(lily, _A)) .
+
+% ?- sentence4(X, [every,dog,loves,lily], []).
+% X = all(_A, dog(_A)->loves(_A, lily)) .
