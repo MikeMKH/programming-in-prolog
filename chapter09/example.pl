@@ -293,3 +293,26 @@ intrans_verb4(X, lives(X)) --> [lives].
 
 % ?- sentence4(X, [every,dog,loves,lily], []).
 % X = all(_A, dog(_A)->loves(_A, lily)) .
+
+% 9.8 more general use of grammar rules
+
+cleanlist([], []).
+cleanlist([H|T], [H|TT]) :-
+  number(H),
+  cleanlist(T, TT),
+  !.
+cleanlist([_|T], TT) :-
+  cleanlist(T, TT).
+
+% ?- cleanlist([1, b, c, 4], X).
+% X = [1, 4].
+
+% ?- cleanlist([a], X).
+% X = [].
+
+cleanlist1([]) --> [].
+cleanlist1([H|T]) --> [H], {number(H)}, !, cleanlist1(T).
+cleanlist1(L) --> [_], cleanlist1(L).
+
+% ?- phrase(cleanlist1(X), [1, 2, c, d, 5]).
+% X = [1, 2, 5] .
